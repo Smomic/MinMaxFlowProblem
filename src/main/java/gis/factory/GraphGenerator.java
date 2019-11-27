@@ -1,40 +1,39 @@
 package gis.factory;
 
-import gis.GisException;
+import gis.model.Graph;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class GraphGenerator {
 
-    private int[][] adjacencyMatrix;
-    private int numOfVertices;
+    private static final GraphGenerator generator = new GraphGenerator();
+    private Graph graph;
     private int maxWeight;
 
-    public GraphGenerator(int numOfVertices) {
-        this.numOfVertices = numOfVertices;
-        this.adjacencyMatrix = new int[numOfVertices][numOfVertices];
+    private GraphGenerator() {
+
     }
 
-    public int[][] generateAdjacencyMatrix(double probability, int maxWeight) throws GisException {
-        if (numOfVertices <= 1 || probability < 0 || probability > 1) {
-            throw new GisException("Incorrect input data");
-        }
-        this.maxWeight = maxWeight;
+    public static GraphGenerator getInstance() {
+        return generator;
+    }
 
+    public Graph generateNewGraph(int numOfVertices, int maxPossibleWeight, double probability) {
+        this.graph =  new Graph(numOfVertices);
+        this.maxWeight = maxPossibleWeight;
         generateSpanningTree();
         generateRandomEdges(probability);
 
-        return adjacencyMatrix;
+        return graph;
     }
 
     private void generateSpanningTree() {
-        IntStream.range(1, numOfVertices).forEach(i -> addToMatrix(i, getRandomVertex(i), getRandomWeight()));
+        IntStream.range(1, graph.getNumOfEdges()).forEach(i -> addToMatrix(i, getRandomVertex(i), getRandomWeight()));
     }
 
     private void addToMatrix(int n, int m, int weight) {
-        adjacencyMatrix[n][m] = weight;
-        adjacencyMatrix[m][n] = weight;
+        graph.addEdge(n, m, weight);
     }
 
     private int getRandomVertex(int maxValue) {
@@ -49,10 +48,10 @@ public class GraphGenerator {
         int possibleEdges = calculateMaxPossibleNumberOfEgdes();
         int addedEdges = (int) (possibleEdges * probability);
         for (int i = 0; i < addedEdges; ) {
-            int firstVertex = getRandomVertex(numOfVertices);
-            int secondVertex = getRandomVertex(numOfVertices);
-            if (firstVertex != secondVertex && !checkEdge(firstVertex, secondVertex)) {
-                int randomWeight = ThreadLocalRandom.current().nextInt(1, maxWeight);
+            int firstVertex = getRandomVertex(graph.getNumOfVertices());
+            int secondVertex = getRandomVertex(graph.getNumOfVertices());
+            if (firstVertex != secondVertex && !graph.isEgdeExist(firstVertex, secondVertex)) {
+                int randomWeight = getRandomWeight();
                 addToMatrix(firstVertex, secondVertex, randomWeight);
                 i++;
             }
@@ -60,12 +59,7 @@ public class GraphGenerator {
     }
 
     private int calculateMaxPossibleNumberOfEgdes() {
-        return (numOfVertices * numOfVertices - numOfVertices - 2 * (numOfVertices - 1)) / 2;
-
-    }
-
-    private boolean checkEdge(int n, int m) {
-        return adjacencyMatrix[n][m] == 0;
+        return (graph.getNumOfVertices() * graph.getNumOfVertices() - graph.getNumOfVertices() - 2 * (graph.getNumOfVertices() - 1)) / 2;
     }
 }
 

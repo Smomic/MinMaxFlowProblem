@@ -14,9 +14,7 @@ public class GenerateGraphTest {
 
     @Test
     public void testGeneratingGraph() throws GisException {
-        GraphGenerator graphGenerator = new GraphGenerator(NUM_OF_VERTICES);
-        int[][] matrix = graphGenerator.generateAdjacencyMatrix(PROBABILITY, MAX_WEIGHT);
-        Graph createdGraph = GraphFactory.createGraph(graphGenerator.generateAdjacencyMatrix(PROBABILITY, MAX_WEIGHT));
+        Graph createdGraph = GraphFactory.createGraph(NUM_OF_VERTICES, MAX_WEIGHT, PROBABILITY);
 
         assertThat(createdGraph.getNumOfVertices()).isEqualTo(NUM_OF_VERTICES);
         System.out.println(createdGraph.toString());

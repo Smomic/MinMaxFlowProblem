@@ -1,11 +1,8 @@
 package gis.model;
 
-import java.util.LinkedList;
-import java.util.stream.IntStream;
-
 public class Graph {
 
-    private LinkedList<LinkedList<Edge>> adjMatrix;
+    private int[][] adjacencyMatrix;
 
     private int numOfVertices;
 
@@ -14,14 +11,19 @@ public class Graph {
     public Graph(int numOfVertices) {
         this.numOfVertices = numOfVertices;
         this.numOfEdges = 0;
-        adjMatrix = new LinkedList<>();
+        adjacencyMatrix = new int[numOfVertices][numOfVertices];
+        this.numOfEdges = 0;
 
-        IntStream.range(0, numOfVertices).forEach(i -> adjMatrix.add(new LinkedList<>()));
     }
 
     public void addEdge(int source, int destination, int weight) {
-        adjMatrix.get(source).add(new Edge(weight, destination));
+        adjacencyMatrix[source][destination] = weight;
+        adjacencyMatrix[destination][source] = weight;
         numOfEdges++;
+    }
+
+    public boolean isEgdeExist(int source, int destination) {
+        return adjacencyMatrix[source][destination] != 0;
     }
 
     public int getNumOfVertices() {
@@ -34,16 +36,17 @@ public class Graph {
 
     @Override
     public String toString() {
-        int index = 0;
         StringBuilder builder = new StringBuilder("Graph:\n");
-        for (LinkedList<Edge> list : adjMatrix) {
-            for (Edge edge : list) {
-                builder.append(adjMatrix.indexOf(list))
-                        .append(" - ")
-                        .append(edge.getDestNode())
-                        .append(", cost: ")
-                        .append(edge.getCost())
-                        .append("\n");
+        for (int i = 0; i < numOfVertices; ++i) {
+            for (int j = 0; j < numOfVertices; ++j) {
+                if (isEgdeExist(i, j)) {
+                    builder.append(i)
+                            .append(" - ")
+                            .append(j)
+                            .append(", cost: ")
+                            .append(adjacencyMatrix[i][j])
+                            .append("\n");
+                }
             }
         }
         return builder.toString();
