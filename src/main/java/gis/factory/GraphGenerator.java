@@ -20,7 +20,7 @@ public class GraphGenerator {
     }
 
     public Graph generateNewGraph(int numOfVertices, int maxPossibleWeight, double probability) {
-        this.graph =  new Graph(numOfVertices);
+        this.graph = new Graph(numOfVertices);
         this.maxWeight = maxPossibleWeight;
         generateSpanningTree();
         generateRandomEdges(probability);

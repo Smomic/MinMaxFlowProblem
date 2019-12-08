@@ -16,16 +16,16 @@ public class MinMaxFlowTester {
     private double probability;
     private MaxFlowFinder maxFlowFinder;
 
-    public MinMaxFlowTester(int numberOfTests, int numberOfNodes, int maxWeight, double probability) {
+    public MinMaxFlowTester(int numberOfTests, int numberOfNodes, int maxWeight, double probability, int startVertex, int endVertex) {
         this.numberOfTests = numberOfTests;
         this.maxWeight = maxWeight;
         this.probability = probability;
         this.numberOfNodes = numberOfNodes;
-        this.maxFlowFinder = new MaxFlowFinder();
+        this.maxFlowFinder = new MaxFlowFinder(startVertex, endVertex);
     }
 
     public void run() throws GisException {
-        if(numberOfTests < 0 || numberOfNodes < 1 || maxWeight < 0
+        if (numberOfTests < 0 || numberOfNodes < 2 || maxWeight < 0
                 || probability <= 0 || probability > 1) {
             throw new GisException("Incorrect input data!");
         }

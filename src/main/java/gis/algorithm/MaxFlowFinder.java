@@ -12,17 +12,24 @@ public class MaxFlowFinder {
 
     private Set<Integer> visitedVertices;
     private Graph graph;
+    private int startVertex;
+    private int endVertex;
 
-    public MaxFlowFinder() {
+    public MaxFlowFinder(int startVertex, int endVertex) {
         visitedVertices = new HashSet<>();
+        this.startVertex = startVertex;
+        this.endVertex = endVertex;
     }
 
     public List<String> find(Graph graph) throws GisException {
         this.graph = graph;
-        if(!isConnected()) {
+        if (!isConnected()) {
             throw new GisException("Invalid graph! Required connected graph");
         }
-        int i= 0;
+        if (startVertex == endVertex) {
+            throw new GisException("Start vertex equals end vertex");
+        }
+        int i = 0;
         while (i < 1_000_000_000) {
 
             ++i;

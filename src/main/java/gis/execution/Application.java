@@ -8,8 +8,8 @@ import static gis.model.Parameters.*;
 
 public class Application {
 
-    private static final String HEADER = "\n\nHow to use the application:\n";
-    private static final String EXAMPLE = "\nExample: gradle run --args=\"-n 10\"\n";
+    private static final String HEADER = "\n\nApp for calculating min and max flow for directed graphs.\nHow to use the application:\n";
+    private static final String EXAMPLE = "\nExample: gradle run --args=\"-n 10 -vs 0 -ve 1\"\n";
 
     public static void main(String[] args) {
         CommandLineParser parser = new DefaultParser();
@@ -18,7 +18,7 @@ public class Application {
         try {
             cmd = parser.parse(options, args);
 
-            if (cmd.hasOption(NUM_OF_NODES.getValue())) {
+            if (cmd.hasOption(NUM_OF_NODES.getValue()) && cmd.hasOption(START_VERTEX.getValue()) && cmd.hasOption(END_VERTEX.getValue())) {
                 execute(cmd);
             }
         } catch (ParseException e) {
@@ -29,7 +29,8 @@ public class Application {
     }
 
     private static void execute(CommandLine cmd) throws GisException {
-        MinMaxFlowTester minMaxFlowTester = new MinMaxFlowTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())), getMaxWeight(cmd), getProbability(cmd));
+        MinMaxFlowTester minMaxFlowTester = new MinMaxFlowTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
+                getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
         minMaxFlowTester.run();
         System.out.println("THE END");
     }
@@ -58,7 +59,19 @@ public class Application {
         final Option numberOfNodesOption = Option.builder("n")
                 .required(true)
                 .hasArg()
-                .desc("Number of nodes")
+                .desc("[R] Number of vertices")
+                .build();
+
+        final Option startVertexOption = Option.builder("vs")
+                .required(true)
+                .hasArg()
+                .desc("[R] Start vertex")
+                .build();
+
+        final Option endVertexOption = Option.builder("ve")
+                .required(true)
+                .hasArg()
+                .desc("[R] End vertex")
                 .build();
 
         final Option probabilityOption = Option.builder("p")
@@ -84,6 +97,8 @@ public class Application {
         options.addOption(probabilityOption);
         options.addOption(numberOfTestsOption);
         options.addOption(maxWeightOption);
+        options.addOption(startVertexOption);
+        options.addOption(endVertexOption);
         return options;
     }
 }
