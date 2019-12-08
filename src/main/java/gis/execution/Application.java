@@ -15,7 +15,6 @@ public class Application {
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         Options options = generateOptions();
-
         try {
             cmd = parser.parse(options, args);
 
@@ -41,7 +40,7 @@ public class Application {
     }
 
     private static double getProbability(CommandLine cmd) {
-        return cmd.hasOption(MAX_WEIGHT.getValue()) ? Double.parseDouble(cmd.getOptionValue(PROBABILITY.getValue()))
+        return cmd.hasOption(PROBABILITY.getValue()) ? Double.parseDouble(cmd.getOptionValue(PROBABILITY.getValue()))
                 : Double.parseDouble(DEFAULT_PROBABILITY.getValue());
     }
 

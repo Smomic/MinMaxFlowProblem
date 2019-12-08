@@ -31,6 +31,25 @@ public class MaxFlowFinder {
     }
 
     private boolean isConnected() {
-        return true;
+        if (graph.getNumOfVertices() > 0) {
+            clearVisitedVertices();
+            DFS(0);
+            return graph.getNumOfVertices() == visitedVertices.size();
+        }
+        return false;
+    }
+
+    private void clearVisitedVertices() {
+        if (!visitedVertices.isEmpty())
+            visitedVertices.clear();
+    }
+
+    private void DFS(int v) {
+        visitedVertices.add(v);
+
+        int[] adjacencyMatrix = graph.getAdjacencyMatrix()[v];
+        IntStream.range(0, adjacencyMatrix.length)
+                .filter(i -> adjacencyMatrix[i] > 0 && !visitedVertices.contains(i))
+                .forEach(this::DFS);
     }
 }

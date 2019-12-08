@@ -25,6 +25,11 @@ public class MinMaxFlowTester {
     }
 
     public void run() throws GisException {
+        if(numberOfTests < 0 || numberOfNodes < 1 || maxWeight < 0
+                || probability <= 0 || probability > 1) {
+            throw new GisException("Incorrect input data!");
+        }
+
         warmUp();
         List<Graph> generatedGraph = getGeneratedGraphs();
         List<Double> exactTimeList = new ArrayList<>();
