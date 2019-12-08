@@ -34,6 +34,10 @@ public class Graph {
         return numOfEdges;
     }
 
+    public int[][] getAdjacencyMatrix() {
+        return adjacencyMatrix;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Graph:\n");

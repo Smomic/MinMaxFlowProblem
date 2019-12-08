@@ -1,6 +1,4 @@
-import gis.GisException;
 import gis.factory.GraphFactory;
-import gis.factory.GraphGenerator;
 import gis.model.Graph;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +11,7 @@ public class GenerateGraphTest {
     private static final int MAX_WEIGHT = 20;
 
     @Test
-    public void testGeneratingGraph() throws GisException {
+    public void testGeneratingGraph() {
         Graph createdGraph = GraphFactory.createGraph(NUM_OF_VERTICES, MAX_WEIGHT, PROBABILITY);
 
         assertThat(createdGraph.getNumOfVertices()).isEqualTo(NUM_OF_VERTICES);

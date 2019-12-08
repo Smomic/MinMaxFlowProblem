@@ -29,7 +29,7 @@ public class GraphGenerator {
     }
 
     private void generateSpanningTree() {
-        IntStream.range(1, graph.getNumOfEdges()).forEach(i -> addToMatrix(i, getRandomVertex(i), getRandomWeight()));
+        IntStream.range(0, graph.getNumOfEdges() - 1).forEach(i -> addToMatrix(i, getRandomVertex(i), getRandomWeight()));
     }
 
     private void addToMatrix(int n, int m, int weight) {
