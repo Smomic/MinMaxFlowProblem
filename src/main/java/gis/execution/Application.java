@@ -1,7 +1,7 @@
 package gis.execution;
 
-import gis.factory.GraphFactory;
-import gis.model.Graph;
+import gis.GisException;
+import gis.MinMaxFlowTester;
 import org.apache.commons.cli.*;
 
 import static gis.model.Parameters.*;
@@ -24,12 +24,15 @@ public class Application {
             }
         } catch (ParseException e) {
             help(options);
+        } catch (GisException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void execute(CommandLine cmd) {
-        Graph graph = GraphFactory.createGraph(Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())), getMaxWeight(cmd), getProbability(cmd));
-        System.out.println(graph);
+    private static void execute(CommandLine cmd) throws GisException {
+        MinMaxFlowTester minMaxFlowTester = new MinMaxFlowTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())), getMaxWeight(cmd), getProbability(cmd));
+        minMaxFlowTester.run();
+        System.out.println("THE END");
     }
 
     private static int getMaxWeight(CommandLine cmd) {
