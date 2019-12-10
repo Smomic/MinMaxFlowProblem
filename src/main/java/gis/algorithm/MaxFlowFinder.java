@@ -152,4 +152,19 @@ public class MaxFlowFinder {
 
         return fmax;
     }
+
+    /**
+     * Prints graph edges with computed max flow values
+     *
+     * @param capacityMatrix capacity matrix
+     * @param flowMatrix flow matrix
+     */
+    private void printMaxFlowEdgesValues(int[][] capacityMatrix, int[][] flowMatrix) {
+        for (int x = 0; x < capacityMatrix.length; x++) {
+            for (int y = 0; y < capacityMatrix.length; y++) {
+                if (capacityMatrix[x][y] > 0)
+                    System.out.println(x + " -> " + y + " " + flowMatrix[x][y] + ": " + capacityMatrix[x][y]);
+            }
+        }
+    }
 }
