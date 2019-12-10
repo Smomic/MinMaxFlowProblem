@@ -150,6 +150,9 @@ public class MaxFlowFinder {
                 break;
         }
 
+        //printing for testing
+        printMaxFlowEdgesValues(capacityMatrix, flowMatrix);
+
         return fmax;
     }
 
@@ -163,7 +166,7 @@ public class MaxFlowFinder {
         for (int x = 0; x < capacityMatrix.length; x++) {
             for (int y = 0; y < capacityMatrix.length; y++) {
                 if (capacityMatrix[x][y] > 0)
-                    System.out.println(x + " -> " + y + " " + flowMatrix[x][y] + ": " + capacityMatrix[x][y]);
+                    System.out.println(x + " -> " + y + " " + flowMatrix[x][y] + ":" + capacityMatrix[x][y]);
             }
         }
     }
