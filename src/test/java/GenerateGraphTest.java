@@ -1,4 +1,5 @@
-import gis.algorithm.MaxFlowFinder;
+import gis.GisException;
+import gis.algorithm.MaxFlowPathFinder;
 import gis.factory.GraphFactory;
 import gis.model.Graph;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class GenerateGraphTest {
      * Test graph from: https://www.youtube.com/watch?v=LdOnanfc5TM
      */
     @Test
-    public void findMaximumFlowTest() {
+    public void findMaximumFlowTest() throws GisException {
         Graph testGraph = new Graph(11);
         testGraph.addEdge(0, 2, 2);
         testGraph.addEdge(0, 3, 1);
@@ -44,8 +45,8 @@ public class GenerateGraphTest {
         testGraph.addEdge(8, 10, 3);
         testGraph.addEdge(9, 10, 4);
 
-        MaxFlowFinder maxFlowFinder = new MaxFlowFinder(0, 10);
-        int[] maxFlow = maxFlowFinder.findMaximumFlow(testGraph);
+        MaxFlowPathFinder maxFlowPathFinder = new MaxFlowPathFinder(0, 10);
+        int[] maxFlow = maxFlowPathFinder.findMaximumFlowPath(testGraph);
         assertEquals(maxFlow.length, testGraph.getNumOfVertices());
     }
 }

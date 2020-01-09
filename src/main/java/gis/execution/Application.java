@@ -1,7 +1,7 @@
 package gis.execution;
 
 import gis.GisException;
-import gis.MinMaxFlowTester;
+import gis.MinMaxFlowPathTester;
 import org.apache.commons.cli.*;
 
 import static gis.model.Parameters.*;
@@ -29,9 +29,9 @@ public class Application {
     }
 
     private static void execute(CommandLine cmd) throws GisException {
-        MinMaxFlowTester minMaxFlowTester = new MinMaxFlowTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
+        MinMaxFlowPathTester minMaxFlowPathTester = new MinMaxFlowPathTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
                 getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
-        minMaxFlowTester.run();
+        minMaxFlowPathTester.run();
         System.out.println("THE END");
     }
 
