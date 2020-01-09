@@ -68,27 +68,33 @@ public class MaxFlowFinder {
     public int[] findMaximumFlow(Graph graph) {
         int numberOfVertices = graph.getNumOfVertices();
         int[] dist = new int[numberOfVertices];             //dist[i] - shortest distance from startVertex to i
-        Boolean[] sptSet = new Boolean[numberOfVertices];   //sptSet[i] == true if vertex i is included in shortest path
+        boolean[] sptSet = new boolean[numberOfVertices];   //sptSet[i] == true if vertex i is included in shortest path
 
         for (int i = 0; i < numberOfVertices; i++) {
             dist[i] = Integer.MAX_VALUE;
             sptSet[i] = false;
         }
 
-        dist[startVertex] = 0;
+        dist[startVertex] = 0;                              //distance of source vertex to itself
+        int[] parents = new int[numberOfVertices];          //array for storing paths
+        parents[startVertex] = -1;                          //starting vertex doesn't have parent
 
         for (int count = 0; count < numberOfVertices - 1; count++) {
             int u = chooseMinDistanceVertex(dist, sptSet);
             sptSet[u] = true;
             for (int v = 0; v < numberOfVertices; v++) {
+
                 if (!sptSet[v] && graph.getAdjacencyMatrix()[u][v] != 0
                         && dist[u] != Integer.MAX_VALUE
                         && dist[u] + graph.getAdjacencyMatrix()[u][v] < dist[v]) {
+                    parents[v] = u;
                     dist[v] = dist[u] + graph.getAdjacencyMatrix()[u][v];
                 }
             }
         }
 
+        //test
+        printMaxMinFlowSolution(dist, parents);
         return dist;
     }
 
@@ -96,21 +102,54 @@ public class MaxFlowFinder {
     /**
      * Chooses vertex with minimum distance value
      *
-     * @param dist array of distances
+     * @param dist   array of distances
      * @param sptSet array with information whether vertex in included in path or not
      * @return selected vertex
      */
-    private int chooseMinDistanceVertex(int[] dist, Boolean[] sptSet)
-    {
-        // Initialize min value
-        int min = Integer.MAX_VALUE, min_index = -1;
+    private int chooseMinDistanceVertex(int[] dist, boolean[] sptSet) {
+        int minDist = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < dist.length; v++)
-            if (sptSet[v] == false && dist[v] <= min) {
-                min = dist[v];
+            if (sptSet[v] == false && dist[v] <= minDist) {
+                minDist = dist[v];
                 min_index = v;
             }
 
         return min_index;
+    }
+
+    /**
+     * Prints solution
+     *
+     * @param distances array with distances
+     * @param parents   array of parents for path printing
+     */
+    private void printMaxMinFlowSolution(int[] distances, int[] parents) {
+        int nVertices = distances.length;
+        System.out.print("Vertex\t Distance\tPath");
+
+        for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) {
+            if (vertexIndex != startVertex) {
+                System.out.print("\n" + startVertex + " -> ");
+                System.out.print(vertexIndex + " \t\t ");
+                System.out.print(distances[vertexIndex] + "\t\t");
+                printPath(vertexIndex, parents);
+            }
+        }
+        System.out.println("\n");
+    }
+
+    /**
+     * Prints shortest paths
+     *
+     * @param currentVertex current vertex
+     * @param parents       parents array
+     */
+    private void printPath(int currentVertex, int[] parents) {
+        if (currentVertex == -1) {
+            return;
+        }
+        printPath(parents[currentVertex], parents);
+        System.out.print(currentVertex + " ");
     }
 }
