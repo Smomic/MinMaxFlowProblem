@@ -45,7 +45,20 @@ public class GenerateGraphTest {
         testGraph.addEdge(9, 10, 4);
 
         MaxFlowFinder maxFlowFinder = new MaxFlowFinder(0, 10);
-        int maxFlow = maxFlowFinder.findMaximumFlow(testGraph);
-        assertEquals(maxFlow, 7);
+        int[] maxFlow = maxFlowFinder.findMaximumFlow(testGraph);
+        printDistances(maxFlow);
+        assertEquals(maxFlow.length, testGraph.getNumOfVertices());
+    }
+
+    /**
+     * Prints computed distances of Dijkstra algorithm
+     *
+     * @param dist distance values
+     */
+    public void printDistances(int dist[])
+    {
+        System.out.println("Vertex \t\t Distance from Source");
+        for (int i = 0; i < dist.length; i++)
+            System.out.println(i + " \t\t " + dist[i]);
     }
 }
