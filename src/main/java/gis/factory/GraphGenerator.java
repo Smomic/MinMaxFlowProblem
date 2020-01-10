@@ -5,21 +5,20 @@ import gis.model.Graph;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-public class GraphGenerator {
+class GraphGenerator {
 
     private static final GraphGenerator generator = new GraphGenerator();
     private Graph graph;
     private int maxWeight;
 
     private GraphGenerator() {
-
     }
 
-    public static GraphGenerator getInstance() {
+    static GraphGenerator getInstance() {
         return generator;
     }
 
-    public Graph generateNewGraph(int numOfVertices, int maxPossibleWeight, double probability) {
+    Graph generateNewGraph(int numOfVertices, int maxPossibleWeight, double probability) {
         this.graph = new Graph(numOfVertices);
         this.maxWeight = maxPossibleWeight;
         generateSpanningTree();

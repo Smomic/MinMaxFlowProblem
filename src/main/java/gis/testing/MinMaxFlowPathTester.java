@@ -1,11 +1,12 @@
-package gis;
+package gis.testing;
 
-import gis.algorithm.MaxFlowPathFinder;
+import gis.algorithm.ConnectionFinder;
+import gis.algorithm.MinMaxFlowPathFinder;
 import gis.factory.GraphFactory;
 import gis.model.Graph;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,14 +16,14 @@ public class MinMaxFlowPathTester {
     private int maxWeight;
     private int numberOfNodes;
     private double probability;
-    private MaxFlowPathFinder maxFlowPathFinder;
+    private MinMaxFlowPathFinder minMaxFlowPathFinder;
 
     public MinMaxFlowPathTester(int numberOfTests, int numberOfNodes, int maxWeight, double probability, int startVertex, int endVertex) {
         this.numberOfTests = numberOfTests;
         this.maxWeight = maxWeight;
         this.probability = probability;
         this.numberOfNodes = numberOfNodes;
-        this.maxFlowPathFinder = new MaxFlowPathFinder(startVertex, endVertex);
+        this.minMaxFlowPathFinder = new MinMaxFlowPathFinder(startVertex, endVertex);
     }
 
     public void run() throws GisException {
@@ -35,15 +36,27 @@ public class MinMaxFlowPathTester {
         List<Graph> generatedGraph = getGeneratedGraphs();
         List<Double> exactTimeList = new ArrayList<>();
 
+        validateGraphs(generatedGraph);
+
         for (int i = 0; i < numberOfTests; ++i) {
             long tStart = System.currentTimeMillis();
-            System.out.println(Arrays.toString(maxFlowPathFinder.findMaximumFlowPath(generatedGraph.get(i))));
+            Pair<Integer, List<Integer>> result = minMaxFlowPathFinder.findMaximumFlowPath(generatedGraph.get(i));
+            System.out.println(result.getKey() + ", " + result.getKey());
             long tEnd = System.currentTimeMillis();
             long tDelta = tEnd - tStart;
             exactTimeList.add(tDelta / 1000.0);
         }
         System.out.println("Avg. time: " + getSumOfTime(exactTimeList) / numberOfTests);
 
+    }
+
+    private void validateGraphs(List<Graph> generatedGraph) throws GisException {
+        ConnectionFinder connectionFinder = new ConnectionFinder();
+        for (Graph graph : generatedGraph) {
+            if (!connectionFinder.isConnected(graph)) {
+                throw new GisException("Graph is not connected!");
+            }
+        }
     }
 
     private double getSumOfTime(List<Double> exactTimeList) {
@@ -61,11 +74,7 @@ public class MinMaxFlowPathTester {
     private void warmUp() {
         Graph warmUpGraph = GraphFactory.createGraph(100, 100, 0.3);
         IntStream.range(0, 10).forEach(i -> {
-            try {
-                maxFlowPathFinder.findMaximumFlowPath(warmUpGraph);
-            } catch (GisException e) {
-                System.err.println("Unexpected error");
-            }
+            minMaxFlowPathFinder.findMaximumFlowPath(warmUpGraph);
         });
     }
 }

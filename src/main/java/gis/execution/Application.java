@@ -1,7 +1,7 @@
 package gis.execution;
 
-import gis.GisException;
-import gis.MinMaxFlowPathTester;
+import gis.testing.GisException;
+import gis.testing.MinMaxFlowPathTester;
 import org.apache.commons.cli.*;
 
 import static gis.model.Parameters.*;

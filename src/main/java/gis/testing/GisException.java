@@ -1,7 +1,7 @@
-package gis;
+package gis.testing;
 
 public class GisException extends Exception {
-    public GisException(String message) {
+    GisException(String message) {
         super(message);
     }
 }

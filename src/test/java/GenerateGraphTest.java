@@ -1,8 +1,11 @@
-import gis.GisException;
-import gis.algorithm.MaxFlowPathFinder;
+import gis.testing.GisException;
+import gis.algorithm.MinMaxFlowPathFinder;
 import gis.factory.GraphFactory;
 import gis.model.Graph;
+import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +21,7 @@ public class GenerateGraphTest {
         Graph createdGraph = GraphFactory.createGraph(NUM_OF_VERTICES, MAX_WEIGHT, PROBABILITY);
 
         assertThat(createdGraph.getNumOfVertices()).isEqualTo(NUM_OF_VERTICES);
-        System.out.println(createdGraph.toString());
+        //System.out.println(createdGraph.toString());
     }
 
     /**
@@ -45,8 +48,12 @@ public class GenerateGraphTest {
         testGraph.addEdge(8, 10, 3);
         testGraph.addEdge(9, 10, 4);
 
-        MaxFlowPathFinder maxFlowPathFinder = new MaxFlowPathFinder(0, 10);
-        int[] maxFlow = maxFlowPathFinder.findMaximumFlowPath(testGraph);
-        assertEquals(maxFlow.length, testGraph.getNumOfVertices());
+        MinMaxFlowPathFinder minMaxFlowPathFinder = new MinMaxFlowPathFinder(0, 10);
+        Pair<Integer, List<Integer>> resultMaxPath = minMaxFlowPathFinder.findMaximumFlowPath(testGraph);
+        System.out.println("Max Flow: " + resultMaxPath.getKey() +  ", " + resultMaxPath.getValue());
+        Pair<Integer, List<Integer>> resultMinPath = minMaxFlowPathFinder.findMinimumFlowPath(testGraph);
+        System.out.println("Min Flow: " + resultMinPath.getKey() +  ", " + resultMinPath.getValue());
+        assertThat(resultMaxPath.getKey()).isEqualTo(3);
+        assertThat(resultMinPath.getKey()).isEqualTo(1);
     }
 }
