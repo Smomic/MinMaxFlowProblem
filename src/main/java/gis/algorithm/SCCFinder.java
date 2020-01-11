@@ -14,7 +14,13 @@ public class SCCFinder {
     private int preCount;
     private Graph graph;
 
-    //https://www.sanfoundry.com/java-program-tarjan-algorithm/
+    /**
+     * Tarjan algorithm for finding strongly connected components
+     * //https://www.sanfoundry.com/java-program-tarjan-algorithm/
+     *
+     * @param graph graph instance
+     * @return list with strongly connected components
+     */
     public List<List<Integer>> getSCComponents(Graph graph) {
         int noOfVertices = graph.getNumOfVertices();
         low = new int[noOfVertices];
@@ -32,17 +38,26 @@ public class SCCFinder {
         return sccComp;
     }
 
+    /**
+     * Updates strongly connected components using modified version of DFS algorithm
+     * NOTE! Algorithm assumes that arc wages are different from 0
+     *
+     * @param v vertex
+     */
     private void updateScc(int v) {
         low[v] = preCount++;
         visited[v] = true;
         sccStack.push(v);
         int min = low[v];
 
-        for (int w : graph.getAdjacencyMatrix()[v]) {
-            if (!visited[w])
-                updateScc(w);
-            if (low[w] < min)
-                min = low[w];
+        int[] row = graph.getAdjacencyMatrix()[v];
+        for (int w = 0; w < row.length; w++) {
+            if (row[w] != 0) {
+                if (!visited[w])
+                    updateScc(w);
+                if (low[w] < min)
+                    min = low[w];
+            }
         }
 
         if (min < low[v]) {
