@@ -16,7 +16,7 @@ public class Graph {
 
     public void addEdge(int source, int destination, int weight) {
         adjacencyMatrix[source][destination] = weight;
-        adjacencyMatrix[destination][source] = weight;
+//        adjacencyMatrix[destination][source] = weight;
         numOfEdges++;
     }
 
