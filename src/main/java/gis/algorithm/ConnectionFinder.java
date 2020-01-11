@@ -15,12 +15,28 @@ public class ConnectionFinder {
     }
 
     public boolean isConnected(Graph graph) {
-        if (graph.getNumOfVertices() > 0) {
+        Graph nonDirectedGraph = convertToNonDirectedGraph(graph);
+        if (nonDirectedGraph.getNumOfVertices() > 0) {
             clearVisitedVertices();
-            DFS(0, graph);
-            return graph.getNumOfVertices() == visitedVertices.size();
+            DFS(0, nonDirectedGraph);
+            return nonDirectedGraph.getNumOfVertices() == visitedVertices.size();
         }
         return false;
+    }
+
+    private Graph convertToNonDirectedGraph(Graph directedGraph) {
+        int numOfVertices = directedGraph.getNumOfVertices();
+        int[][] newAdjacencyMatrix = new int[numOfVertices][numOfVertices];
+
+        for(int i = 0; i < numOfVertices; ++i) {
+            for(int j = 0; j < numOfVertices; ++j) {
+                if (directedGraph.isEgdeExist(i, j) || directedGraph.isEgdeExist(j, i)) {
+                    newAdjacencyMatrix[i][j] = newAdjacencyMatrix[j][i] = 1;
+                }
+            }
+        }
+
+        return new Graph(newAdjacencyMatrix, numOfVertices, directedGraph.getNumOfEdges() * 2);
     }
 
     private void clearVisitedVertices() {

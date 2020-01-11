@@ -14,9 +14,14 @@ public class Graph {
         this.adjacencyMatrix = new int[numOfVertices][numOfVertices];
     }
 
+    public Graph(int[][] adjacencyMatrix, int numOfVertices, int numOfEdges) {
+        this.adjacencyMatrix = adjacencyMatrix;
+        this.numOfVertices = numOfVertices;
+        this.numOfEdges = numOfEdges;
+    }
+
     public void addEdge(int source, int destination, int weight) {
         adjacencyMatrix[source][destination] = weight;
-        adjacencyMatrix[destination][source] = weight;
         numOfEdges++;
     }
 

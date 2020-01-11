@@ -25,6 +25,6 @@ test {
 task run (type: JavaExec){
     description = "MinMaxFlowProblem"
     main = 'gis.execution.Application'
-    jvmArgs '-Xss4096m'
+    jvmArgs = [ '-Xms1024m', '-Xmx4g']
     classpath = sourceSets.main.runtimeClasspath
 }

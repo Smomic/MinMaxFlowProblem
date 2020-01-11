@@ -31,7 +31,7 @@ public class Application {
     private static void execute(CommandLine cmd) throws GisException {
         MinMaxFlowPathTester minMaxFlowPathTester = new MinMaxFlowPathTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
                 getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
-        minMaxFlowPathTester.run();
+        minMaxFlowPathTester.run(true, true);
         System.out.println("THE END");
     }
 
