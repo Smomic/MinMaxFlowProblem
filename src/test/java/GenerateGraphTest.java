@@ -2,7 +2,7 @@ import gis.testing.GisException;
 import gis.algorithm.MinMaxFlowPathFinder;
 import gis.factory.GraphFactory;
 import gis.model.Graph;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

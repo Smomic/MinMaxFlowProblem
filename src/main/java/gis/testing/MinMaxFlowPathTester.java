@@ -4,7 +4,8 @@ import gis.algorithm.ConnectionFinder;
 import gis.algorithm.MinMaxFlowPathFinder;
 import gis.factory.GraphFactory;
 import gis.model.Graph;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

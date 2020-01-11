@@ -1,7 +1,9 @@
 package gis.algorithm;
 
 import gis.model.Graph;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class MinMaxFlowPathFinder {
 
         List<Integer> resultPath = new ArrayList<>();
         collectPath(endVertex, parents, resultPath);
-        return new Pair<>(dist[endVertex], resultPath);
+        return new MutablePair<>(dist[endVertex], resultPath);
     }
 
     private void findMaxDistance(Graph graph, int[] dist, int[] parents, int u, int v) {
@@ -98,7 +100,7 @@ public class MinMaxFlowPathFinder {
 
         List<Integer> resultPath = new ArrayList<>();
         collectPath(endVertex, parents, resultPath);
-        return new Pair<>(dist[endVertex], resultPath);
+        return new MutablePair<>(dist[endVertex], resultPath);
     }
 
     private void findMinDistance(Graph graph, int[] dist, int[] parents, int u, int v) {
