@@ -24,11 +24,12 @@ class MinMaxFlowFinderTest {
         Graph testGraph = getTestGraph();
 
         MinMaxFlowPathFinder minMaxFlowPathFinder = new MinMaxFlowPathFinder(0, 10);
+        minMaxFlowPathFinder.setGraph(testGraph);
 
-        Pair<Integer, List<Integer>> resultMaxPath = minMaxFlowPathFinder.findMaximumFlowPath(testGraph);
+        Pair<Integer, List<Integer>> resultMaxPath = minMaxFlowPathFinder.findMaximumFlowPath();
         System.out.println("Max Flow: " + resultMaxPath.getKey() + ", " + resultMaxPath.getValue());
 
-        Pair<Integer, List<Integer>> resultMinPath = minMaxFlowPathFinder.findMinimumFlowPath(testGraph);
+        Pair<Integer, List<Integer>> resultMinPath = minMaxFlowPathFinder.findMinimumFlowPath();
         System.out.println("Min Flow: " + resultMinPath.getKey() + ", " + resultMinPath.getValue());
 
         assertThat(resultMaxPath.getKey()).isEqualTo(3);

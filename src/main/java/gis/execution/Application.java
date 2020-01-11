@@ -31,12 +31,19 @@ public class Application {
     private static void execute(CommandLine cmd) throws GisException {
         MinMaxFlowPathTester minMaxFlowPathTester = new MinMaxFlowPathTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
                 getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
-        minMaxFlowPathTester.run(true, true);
-        System.out.println("THE END");
+        if (cmd.hasOption(MIN_PATH.getValue())) {
+            minMaxFlowPathTester.run(false, true);
+        } else if (cmd.hasOption(MAX_PATH.getValue())) {
+            minMaxFlowPathTester.run(true, false);
+        } else {
+            minMaxFlowPathTester.run(true, true);
+        }
+
+        System.out.println("\nTHE END");
     }
 
     private static int getMaxWeight(CommandLine cmd) {
-        return cmd.hasOption(MAX_WEIGHT.getValue()) ? Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue()))
+        return cmd.hasOption(MAX_WEIGHT.getValue()) ? Integer.parseInt(cmd.getOptionValue(MAX_WEIGHT.getValue()))
                 : Integer.parseInt(DEFAULT_MAX_WEIGHT.getValue());
     }
 
@@ -86,6 +93,16 @@ public class Application {
                 .desc("Maximum weight, DEFAULT is 100")
                 .build();
 
+        final Option minPathOption = Option.builder("min")
+                .required(false)
+                .desc("Specify only min flow path finding")
+                .build();
+
+        final Option maxPathOption = Option.builder("max")
+                .required(false)
+                .desc("Specify only max flow path finding")
+                .build();
+
         final Option numberOfTestsOption = Option.builder("tn")
                 .required(false)
                 .hasArg()
@@ -99,6 +116,8 @@ public class Application {
         options.addOption(maxWeightOption);
         options.addOption(startVertexOption);
         options.addOption(endVertexOption);
+        options.addOption(minPathOption);
+        options.addOption(maxPathOption);
         return options;
     }
 }

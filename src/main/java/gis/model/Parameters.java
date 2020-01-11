@@ -9,6 +9,8 @@ public enum Parameters {
     NUM_OF_TESTS("tn"),
     START_VERTEX("vs"),
     END_VERTEX("ve"),
+    MIN_PATH("min"),
+    MAX_PATH("max"),
 
     DEFAULT_PROBABILITY("1.0"),
     DEFAULT_MAX_WEIGHT("100"),

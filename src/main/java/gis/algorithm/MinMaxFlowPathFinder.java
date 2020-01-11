@@ -12,6 +12,7 @@ public class MinMaxFlowPathFinder {
 
     private int startVertex;
     private int endVertex;
+    private Graph graph;
 
     private static final int START_VERTEX_PARENT = -1;
 
@@ -25,10 +26,9 @@ public class MinMaxFlowPathFinder {
      * Base algorithms: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
      * https://stackoverflow.com/questions/18552964/finding-path-with-maximum-minimum-capacity-in-graph
      *
-     * @param graph directed graph
      * @return Pair of maximum flow value and found path
      */
-    public Pair<Integer, List<Integer>> findMaximumFlowPath(Graph graph) {
+    public Pair<Integer, List<Integer>> findMaximumFlowPath() {
         int numberOfVertices = graph.getNumOfVertices();
         int[] dist = new int[numberOfVertices];             //dist[i] - shortest distance from startVertex to i
         boolean[] sptSet = new boolean[numberOfVertices];   //sptSet[i] == true if vertex i is included in shortest path, initialize as false
@@ -48,7 +48,7 @@ public class MinMaxFlowPathFinder {
 
             IntStream.range(0, numberOfVertices)
                     .filter(v -> !sptSet[v] && graph.isEgdeExist(u, v))
-                    .forEach(v -> findMaxDistance(graph, dist, parents, u, v));
+                    .forEach(v -> findMaxDistance(dist, parents, u, v));
         }
 
         List<Integer> resultPath = new ArrayList<>();
@@ -56,7 +56,7 @@ public class MinMaxFlowPathFinder {
         return new MutablePair<>(dist[endVertex], resultPath);
     }
 
-    private void findMaxDistance(Graph graph, int[] dist, int[] parents, int u, int v) {
+    private void findMaxDistance(int[] dist, int[] parents, int u, int v) {
         int newDist = Math.max(dist[v], Math.min(dist[u], graph.getAdjacencyMatrix()[u][v]));
 
         if (newDist > dist[v]) {
@@ -70,10 +70,9 @@ public class MinMaxFlowPathFinder {
      * Base algorithms: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
      * https://stackoverflow.com/questions/18552964/finding-path-with-maximum-minimum-capacity-in-graph
      *
-     * @param graph directed graph
      * @return Pair of minimum flow value and found path
      */
-    public Pair<Integer, List<Integer>> findMinimumFlowPath(Graph graph) {
+    public Pair<Integer, List<Integer>> findMinimumFlowPath() {
         int numberOfVertices = graph.getNumOfVertices();
         int[] dist = new int[numberOfVertices];             //dist[i] - shortest distance from startVertex to i
         boolean[] sptSet = new boolean[numberOfVertices];   //sptSet[i] == true if vertex i is included in shortest path, initialize as false
@@ -86,7 +85,7 @@ public class MinMaxFlowPathFinder {
         for (int count = 0; count < numberOfVertices - 1; count++) {
             int u = chooseMinDistanceVertex(dist, sptSet);
 
-            if (dist[u] == Integer.MAX_VALUE || u == endVertex) {
+            if (u == -1 || dist[u] == Integer.MAX_VALUE || u == endVertex) {
                 break;
             }
 
@@ -94,7 +93,7 @@ public class MinMaxFlowPathFinder {
 
             IntStream.range(0, numberOfVertices)
                     .filter(v -> !sptSet[v] && graph.isEgdeExist(u, v))
-                    .forEach(v -> findMinDistance(graph, dist, parents, u, v));
+                    .forEach(v -> findMinDistance(dist, parents, u, v));
         }
 
         List<Integer> resultPath = new ArrayList<>();
@@ -102,7 +101,7 @@ public class MinMaxFlowPathFinder {
         return new MutablePair<>(dist[endVertex], resultPath);
     }
 
-    private void findMinDistance(Graph graph, int[] dist, int[] parents, int u, int v) {
+    private void findMinDistance(int[] dist, int[] parents, int u, int v) {
         int abs = dist[u] == Integer.MIN_VALUE ? Integer.MAX_VALUE : dist[u];   // weights in graph could be only positive
         int newDist = Math.min(abs, Math.min(dist[v], graph.getAdjacencyMatrix()[u][v]));
 
@@ -212,5 +211,9 @@ public class MinMaxFlowPathFinder {
         }
         printPath(parents[currentVertex], parents);
         System.out.print(currentVertex + " ");
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
     }
 }

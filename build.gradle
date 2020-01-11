@@ -20,6 +20,7 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    maxHeapSize='4g'
 }
 
 task run (type: JavaExec){

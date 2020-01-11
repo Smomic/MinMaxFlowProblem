@@ -48,12 +48,22 @@ class GraphGenerator {
     private void generateRandomEdges(double probability) {
         int possibleEdges = calculateMaxPossibleNumberOfEgdes();
         int addedEdges = (int) (possibleEdges * probability);
+        boolean lastAdded = true;
         for (int i = 0; i < addedEdges; ) {
             int firstVertex = getRandomVertex(graph.getNumOfVertices());
             int secondVertex = getRandomVertex(graph.getNumOfVertices());
             if (firstVertex != secondVertex) {
-                if (!graph.isEgdeExist(firstVertex, secondVertex)) {
-                    addToMatrix(firstVertex, secondVertex, getRandomWeight());
+                if (!graph.isEgdeExist(firstVertex, secondVertex) && !graph.isEgdeExist(secondVertex, firstVertex)) {
+                    if (lastAdded) {
+                        addToMatrix(firstVertex, secondVertex, getRandomWeight());
+                        lastAdded = false;
+                    } else {
+                        addToMatrix(secondVertex, firstVertex, getRandomWeight());
+                        lastAdded = true;
+                    }
+                    i++;
+                } else if (!graph.isEgdeExist(firstVertex, secondVertex)) {
+                    addToMatrix(secondVertex, firstVertex, getRandomWeight());
                     i++;
                 } else if (!graph.isEgdeExist(secondVertex, firstVertex)) {
                     addToMatrix(secondVertex, firstVertex, getRandomWeight());
