@@ -11,14 +11,17 @@ public class Graph {
     public Graph(int numOfVertices) {
         this.numOfVertices = numOfVertices;
         this.numOfEdges = 0;
-        adjacencyMatrix = new int[numOfVertices][numOfVertices];
-        this.numOfEdges = 0;
+        this.adjacencyMatrix = new int[numOfVertices][numOfVertices];
+    }
 
+    public Graph(int[][] adjacencyMatrix, int numOfVertices, int numOfEdges) {
+        this.adjacencyMatrix = adjacencyMatrix;
+        this.numOfVertices = numOfVertices;
+        this.numOfEdges = numOfEdges;
     }
 
     public void addEdge(int source, int destination, int weight) {
         adjacencyMatrix[source][destination] = weight;
-        adjacencyMatrix[destination][source] = weight;
         numOfEdges++;
     }
 

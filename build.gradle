@@ -15,16 +15,17 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 }
 
 test {
     useJUnitPlatform()
+    maxHeapSize='4g'
 }
 
 task run (type: JavaExec){
     description = "MinMaxFlowProblem"
     main = 'gis.execution.Application'
-    jvmArgs '-Xss4096m'
+    jvmArgs = [ '-Xms1024m', '-Xmx4g']
     classpath = sourceSets.main.runtimeClasspath
 }
