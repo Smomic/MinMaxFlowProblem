@@ -7,6 +7,7 @@ import gis.factory.GraphFactory;
 import gis.model.Graph;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -45,7 +46,7 @@ public class MinMaxFlowPathTester {
 
         for (int i = 0; i < numberOfTests; ++i) {
             Graph generatedGraph = GraphFactory.createGraph(numberOfNodes, maxWeight, probability);
-            //validateGraph(generatedGraph);
+            validateGraph(generatedGraph);
             convertGraphToSCCompomentIfAvailable(generatedGraph);
             minMaxFlowPathFinder.setGraph(generatedGraph);
 
@@ -63,7 +64,6 @@ public class MinMaxFlowPathTester {
     }
 
     private void convertGraphToSCCompomentIfAvailable(Graph generatedGraph) {
-        SCCFinder sccFinder = new SCCFinder();
         List<List<Integer>> scComponents = sccFinder.getSCComponents(generatedGraph);
         for (List<Integer> component : scComponents) {
             if (scComponents.size() > 1 && component.contains(startVertex) && component.contains(endVertex)) {
@@ -97,7 +97,7 @@ public class MinMaxFlowPathTester {
             }
             index++;
         }
-        System.out.println("Average of time: " + getSumOfTime(exactMaxPathTimeList) / numberOfTests);
+        System.out.println("Average of time: " + new DecimalFormat("#0.000").format(getSumOfTime(exactMaxPathTimeList) / numberOfTests));
     }
 
     private void showMinResult(List<Double> exactMinPathTimeList, List<Pair<Integer, List<Integer>>> minResultList) {
@@ -111,7 +111,7 @@ public class MinMaxFlowPathTester {
             }
             index++;
         }
-        System.out.println("Average of time: " + getSumOfTime(exactMinPathTimeList) / numberOfTests);
+        System.out.println("Average of time: " + new DecimalFormat("#0.000").format(getSumOfTime(exactMinPathTimeList) / numberOfTests));
     }
 
     private Pair<Integer, List<Integer>> testMaxFlowPath(List<Double> exactTimeList) {
