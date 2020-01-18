@@ -35,7 +35,7 @@ public class MinMaxFlowPathTester {
         this.connectionFinder = new ConnectionFinder();
     }
 
-    public void run(boolean isMax, boolean isMin) throws GisException {
+    public void run(boolean isMax, boolean isMin, boolean isScc) throws GisException {
         validateInputData();
         List<Double> exactMaxPathTimeList = new ArrayList<>();
         List<Double> exactMinPathTimeList = new ArrayList<>();

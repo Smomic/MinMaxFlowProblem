@@ -16,6 +16,6 @@ class MinMaxFlowPathTesterTest {
     @Test
     void testPathTester() throws GisException {
         MinMaxFlowPathTester tester = new MinMaxFlowPathTester(NUM_OF_TESTS, NUM_OF_VERTICES, MAX_WEIGHT, PROBABILITY, START_VERTEX, END_VERTEX);
-        tester.run(true, true);
+        tester.run(true, true, true);
     }
 }

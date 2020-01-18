@@ -11,6 +11,7 @@ public enum Parameters {
     END_VERTEX("ve"),
     MIN_PATH("min"),
     MAX_PATH("max"),
+    SCC("scc"),
 
     DEFAULT_PROBABILITY("1.0"),
     DEFAULT_MAX_WEIGHT("100"),

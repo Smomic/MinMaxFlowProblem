@@ -31,15 +31,8 @@ public class Application {
     private static void execute(CommandLine cmd) throws GisException {
         MinMaxFlowPathTester minMaxFlowPathTester = new MinMaxFlowPathTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
                 getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
-        if (cmd.hasOption(MIN_PATH.getValue())) {
-            minMaxFlowPathTester.run(false, true);
-        } else if (cmd.hasOption(MAX_PATH.getValue())) {
-            minMaxFlowPathTester.run(true, false);
-        } else {
-            minMaxFlowPathTester.run(true, true);
-        }
 
-        System.out.println("\nTHE END");
+        minMaxFlowPathTester.run(cmd.hasOption(MAX_PATH.getValue()), cmd.hasOption(MIN_PATH.getValue()), cmd.hasOption(SCC.getValue()));
     }
 
     private static int getMaxWeight(CommandLine cmd) {
@@ -109,6 +102,11 @@ public class Application {
                 .desc("Number of tests, DEFAULT is 1")
                 .build();
 
+        final Option sccOption = Option.builder("scc")
+                .required(false)
+                .desc("Enable creating scc")
+                .build();
+
         final Options options = new Options();
         options.addOption(numberOfNodesOption);
         options.addOption(probabilityOption);
@@ -118,6 +116,7 @@ public class Application {
         options.addOption(endVertexOption);
         options.addOption(minPathOption);
         options.addOption(maxPathOption);
+        options.addOption(sccOption);
         return options;
     }
 }

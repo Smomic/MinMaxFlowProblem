@@ -17,6 +17,5 @@ class GenerateGraphTest {
         Graph createdGraph = GraphFactory.createGraph(NUM_OF_VERTICES, MAX_WEIGHT, PROBABILITY);
 
         assertThat(createdGraph.getNumOfVertices()).isEqualTo(NUM_OF_VERTICES);
-        //System.out.println(createdGraph.toString());
     }
 }
