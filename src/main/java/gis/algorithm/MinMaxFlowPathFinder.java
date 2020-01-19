@@ -173,46 +173,6 @@ public class MinMaxFlowPathFinder {
         result.add(currentVertex);
     }
 
-    /**
-     * Prints solution
-     *
-     * @param distances array with distances
-     * @param parents   array of parents for path printing
-     */
-    private void printMaxMinFlowSolution(int[] distances, int[] parents) {
-        int nVertices = distances.length;
-        System.out.print("Vertex\t Distance\tPath");
-
-        for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) {
-            if (vertexIndex != startVertex) {
-                System.out.print("\n" + startVertex + " -> ");
-                System.out.print(vertexIndex + " \t\t ");
-                if (distances[vertexIndex] == Integer.MIN_VALUE
-                        || distances[vertexIndex] == Integer.MAX_VALUE) {
-                    System.out.print("Path does not exist");
-                } else {
-                    System.out.print(distances[vertexIndex] + "\t\t");
-                    printPath(vertexIndex, parents);
-                }
-            }
-        }
-        System.out.println("\n");
-    }
-
-    /**
-     * Prints shortest paths
-     *
-     * @param currentVertex current vertex
-     * @param parents       parents array
-     */
-    private void printPath(int currentVertex, int[] parents) {
-        if (currentVertex == -1) {
-            return;
-        }
-        printPath(parents[currentVertex], parents);
-        System.out.print(currentVertex + " ");
-    }
-
     public void setGraph(Graph graph) {
         this.graph = graph;
     }

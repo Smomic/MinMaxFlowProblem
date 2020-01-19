@@ -28,8 +28,8 @@ public class ConnectionFinder {
         int numOfVertices = directedGraph.getNumOfVertices();
         int[][] newAdjacencyMatrix = new int[numOfVertices][numOfVertices];
 
-        for(int i = 0; i < numOfVertices; ++i) {
-            for(int j = 0; j < numOfVertices; ++j) {
+        for (int i = 0; i < numOfVertices; ++i) {
+            for (int j = 0; j < numOfVertices; ++j) {
                 if (directedGraph.isEgdeExist(i, j) || directedGraph.isEgdeExist(j, i)) {
                     newAdjacencyMatrix[i][j] = newAdjacencyMatrix[j][i] = 1;
                 }
