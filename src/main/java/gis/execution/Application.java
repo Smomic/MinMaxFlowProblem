@@ -32,7 +32,11 @@ public class Application {
         MinMaxFlowPathTester minMaxFlowPathTester = new MinMaxFlowPathTester(getNumberOfTests(cmd), Integer.parseInt(cmd.getOptionValue(NUM_OF_NODES.getValue())),
                 getMaxWeight(cmd), getProbability(cmd), Integer.parseInt(cmd.getOptionValue(START_VERTEX.getValue())), Integer.parseInt(cmd.getOptionValue(END_VERTEX.getValue())));
 
-        minMaxFlowPathTester.run(cmd.hasOption(MAX_PATH.getValue()), cmd.hasOption(MIN_PATH.getValue()), cmd.hasOption(SCC.getValue()));
+        if (!cmd.hasOption(MAX_PATH.getValue()) && !cmd.hasOption(MIN_PATH.getValue())) {
+            minMaxFlowPathTester.run(true, true, cmd.hasOption(SCC.getValue()));
+        } else {
+            minMaxFlowPathTester.run(cmd.hasOption(MAX_PATH.getValue()), cmd.hasOption(MIN_PATH.getValue()), cmd.hasOption(SCC.getValue()));
+        }
     }
 
     private static int getMaxWeight(CommandLine cmd) {

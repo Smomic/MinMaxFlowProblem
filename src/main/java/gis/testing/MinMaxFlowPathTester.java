@@ -47,7 +47,14 @@ public class MinMaxFlowPathTester {
         for (int i = 0; i < numberOfTests; ++i) {
             Graph generatedGraph = GraphFactory.createGraph(numberOfNodes, maxWeight, probability);
             validateGraph(generatedGraph);
-            convertGraphToSCCompomentIfAvailable(generatedGraph);
+            if (isScc) {
+                long tStart = System.currentTimeMillis();
+                convertGraphToSCCompomentIfAvailable(generatedGraph);
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                exactMinPathTimeList.add(toSecond(tDelta));
+                exactMaxPathTimeList.add(toSecond(tDelta));
+            }
             minMaxFlowPathFinder.setGraph(generatedGraph);
 
             if (isMax)
@@ -119,7 +126,7 @@ public class MinMaxFlowPathTester {
         Pair<Integer, List<Integer>> result = minMaxFlowPathFinder.findMaximumFlowPath();
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
-        exactTimeList.add(tDelta / 1000.0);
+        exactTimeList.add(toSecond(tDelta));
         return result;
     }
 
@@ -128,14 +135,16 @@ public class MinMaxFlowPathTester {
         Pair<Integer, List<Integer>> result = minMaxFlowPathFinder.findMinimumFlowPath();
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
-        exactTimeList.add(tDelta / 1000.0);
+        exactTimeList.add(toSecond(tDelta));
 
         return result;
     }
 
     private void validateInputData() throws GisException {
         if (numberOfTests < 0 || numberOfNodes < 2 || maxWeight < 0
-                || probability <= 0 || probability > 1) {
+                || probability <= 0 || probability > 1
+                || startVertex < 0 || startVertex >= numberOfNodes
+                || endVertex < 0 || endVertex >= numberOfNodes || startVertex == endVertex) {
             throw new GisException("Incorrect input data!");
         }
     }
@@ -160,5 +169,9 @@ public class MinMaxFlowPathTester {
             finder.findMaximumFlowPath();
             finder.findMinimumFlowPath();
         });
+    }
+
+    private double toSecond(long tDelta) {
+        return tDelta / 1000.0;
     }
 }
